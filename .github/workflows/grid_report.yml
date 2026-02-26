@@ -1,0 +1,29 @@
+name: Grid Report
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run Grid Search
+      run: python generate_report.py
+
+    - name: Upload Word
+      uses: actions/upload-artifact@v4
+      with:
+        name: grid-report
+        path: grid_report.docx
